@@ -34,8 +34,8 @@ public class RobotHardware {
   
     public final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
 
-    public final Joystick controller = new Joystick(1);
-    public final Joystick joystick = new Joystick(2);
+    public final Joystick controller = new Joystick(2);
+    public final Joystick joystick = new Joystick(1);
 
       
     public final I2C.Port i2cPort = I2C.Port.kOnboard;
