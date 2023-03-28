@@ -48,12 +48,13 @@ public class Robot extends TimedRobot {
   public final Spark leftMotor = new Spark(5);
   public final Spark rightMotor = new Spark(0);
   
+  
   public final PWMTalonSRX loaderMotor = new PWMTalonSRX(3);
   public final PWMTalonSRX insertMotor = new PWMTalonSRX(2);
   public final PWMTalonSRX spinnerMotor = new PWMTalonSRX(11);
-  public final PWMTalonSRX spinner2 = new PWMTalonSRX(1);
-  
-  public final PWMTalonSRX spinner3 = new PWMTalonSRX(4);
+  public final PWMTalonSRX turn_table = new PWMTalonSRX(6);
+  public final PWMTalonSRX spinner2 = new PWMTalonSRX(1); // Shooter motor
+  public final PWMTalonSRX spinner3 = new PWMTalonSRX(4); // Shooter motor
   public final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
 
   public final Joystick controller = new Joystick(1);
@@ -94,7 +95,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() { 
-
+    rightMotor.setInverted(true);
+    spinner3.setInverted(true);
     //MotorControllerGroup shooter = new MotorControllerGroup(spinner2,spinner3);
    
     /* 
@@ -122,8 +124,8 @@ public class Robot extends TimedRobot {
     // establish variables
     boolean A = controller.getRawButton(1);
     boolean B = controller.getRawButton(2);
-    //boolean X = controller.getRawButton(3);
-    //boolean Y = controller.getRawButton(4);
+    boolean X = controller.getRawButton(3);
+    boolean Y = controller.getRawButton(4);
     boolean LB = controller.getRawButton(5);
     boolean RB = controller.getRawButton(6); // change to getRawButtonPressed
     
@@ -139,10 +141,10 @@ public class Robot extends TimedRobot {
    // Robot drive 
       // Use joystick for driving
     if(joystick.getRawButton(2)){
-      drive.arcadeDrive(-joystick.getY()*0.4, joystick.getZ()*0.4);
+      drive.arcadeDrive(-joystick.getY()*0.4, -joystick.getZ()*0.4);
     }
     else{
-      drive.arcadeDrive(-joystick.getY(), joystick.getZ()*0.5);
+      drive.arcadeDrive(-joystick.getY(), -joystick.getZ()*0.5);
     }
     
 
@@ -157,34 +159,56 @@ public class Robot extends TimedRobot {
       server.setSource(cam1);
     }
 
-    if(LB){
-      loaderMotor.set(0.45);
-    }
-    else if(RB){
-      loaderMotor.set(-0.45);
-    }
-    else{
-      loaderMotor.set(0);
-    }
+    
 
     if(A){
-      spinner2.set(0.25);
-      spinner3.set(-0.25);
-      insertMotor.set(0.25);
+      spinner2.set(0.35);
+      spinner3.set(0.25);
+      loaderMotor.set(0.85);
+      turn_table.set(1);
     }
     else if(B){
-      spinner2.set(0.35);
-      spinner3.set(-0.35);
-      insertMotor.set(0.25);
+      spinner2.set(0.45);
+      spinner3.set(0.35);
+      loaderMotor.set(0.85);
+      turn_table.set(1);
+    }
+    else if(Y){
+      spinner2.set(0.55);
+      spinner3.set(0.45);
+      loaderMotor.set(0.85);
+      turn_table.set(1);
+    }
+    else if(X){
+      spinner2.set(0.90);
+      spinner3.set(0.55);
+      loaderMotor.set(1);
+      turn_table.set(1);
+    }
+    else if(LB&&A==false&&B==false){
+      loaderMotor.set(0.65);
+    }
+    else if(RB&&A==false&&B==false){
+      loaderMotor.set(-0.65);
+    }
+    else if(controller.getRawButton(8)){
+      spinner2.set(-0.45);
+      spinner3.set(-0.45);
+      loaderMotor.set(-0.65);
+      turn_table.set(-1);
+    }
+    else if(controller.getRawButton(7)){
+      spinner2.set(0.45);
+      spinner3.set(0.45);
     }
     else{
       spinner2.set(0);
       spinner3.set(0);
-      insertMotor.set(0);
+      loaderMotor.set(0);
+      turn_table.set(0);
     }
     
     
-
   
     
   } 
