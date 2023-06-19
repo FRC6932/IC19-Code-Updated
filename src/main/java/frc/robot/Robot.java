@@ -23,7 +23,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+//import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 //import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
 
   // set drive motor variables    
   
-  public final Spark leftMotor = new Spark(5);
-  public final Spark rightMotor = new Spark(0);
+  public final PWMTalonSRX leftMotor = new PWMTalonSRX(5);
+  public final PWMTalonSRX rightMotor = new PWMTalonSRX(0);
   
   
   public final PWMTalonSRX loaderMotor = new PWMTalonSRX(3);
@@ -126,8 +126,8 @@ public class Robot extends TimedRobot {
     boolean B = controller.getRawButton(2);
     boolean X = controller.getRawButton(3);
     boolean Y = controller.getRawButton(4);
-    boolean LB = controller.getRawButton(5);
-    boolean RB = controller.getRawButton(6); // change to getRawButtonPressed
+    //boolean LB = controller.getRawButton(5);
+    //boolean RB = controller.getRawButton(6); // change to getRawButtonPressed
     
     /* 
     SmartDashboard.putNumber("Top Pivot Position", top_pivPosition);
@@ -144,7 +144,7 @@ public class Robot extends TimedRobot {
       drive.arcadeDrive(-joystick.getY()*0.4, -joystick.getZ()*0.4);
     }
     else{
-      drive.arcadeDrive(-joystick.getY(), -joystick.getZ()*0.5);
+      drive.arcadeDrive(-joystick.getY()*0.5, -joystick.getZ()*.65);
     }
     
 
@@ -163,32 +163,32 @@ public class Robot extends TimedRobot {
 
     if(A){
       spinner2.set(0.35);
-      spinner3.set(0.25);
+      spinner3.set(0.35);
       loaderMotor.set(0.85);
       turn_table.set(1);
     }
     else if(B){
-      spinner2.set(0.45);
-      spinner3.set(0.35);
+      spinner2.set(0.55);
+      spinner3.set(0.55);
       loaderMotor.set(0.85);
       turn_table.set(1);
     }
     else if(Y){
       spinner2.set(0.55);
-      spinner3.set(0.45);
+      spinner3.set(0.55);
       loaderMotor.set(0.85);
       turn_table.set(1);
     }
     else if(X){
-      spinner2.set(0.90);
-      spinner3.set(0.55);
+      spinner2.set(1);
+      spinner3.set(1);
       loaderMotor.set(1);
       turn_table.set(1);
     }
-    else if(LB&&A==false&&B==false){
+    else if(controller.getRawAxis(2)>0.5&&A==false&&B==false){
       loaderMotor.set(0.65);
     }
-    else if(RB&&A==false&&B==false){
+    else if(controller.getRawAxis(3)>0.5&&A==false&&B==false){
       loaderMotor.set(-0.65);
     }
     else if(controller.getRawButton(8)){
