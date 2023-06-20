@@ -144,7 +144,7 @@ public class Robot extends TimedRobot {
       drive.arcadeDrive(-joystick.getY()*0.4, -joystick.getZ()*0.4);
     }
     else{
-      drive.arcadeDrive(-joystick.getY()*0.5, -joystick.getZ()*.65);
+      drive.arcadeDrive(-joystick.getY(), -joystick.getZ()*.65);
     }
     
 
